@@ -27,6 +27,8 @@ It contains endpoints related to railway industry system:
 ```
 In this case, server will start on **9999** port.
 
+The essence of this server are API endpoints for the operations mentioned in "Introduction" section. You can take a look at all of them, and even test it in action. Just go to http://localhost:8080/swagger-ui.html . This link contains automatically generated API documentation.
+
 ## How is it working?
 When you run the above command, tomcat server is executed, and in-memory database is created. Each time you re-run the server, the database is created from scratch. In-memory database contains entities, like.: Train, Price Offer, Seats etc.
 **Trains** entity is the most important one. Server is supporting the following routes:
