@@ -26,6 +26,8 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping("/trains")
 public class TrainsController {
@@ -39,22 +41,26 @@ public class TrainsController {
   @Autowired
   private SeatsService seatsService;
 
+  @ApiOperation(value = "Search for trains", notes = "${swagger.notes.search}")
   @RequestMapping(value = "/search", method = {RequestMethod.GET})
   public TrainsDTO search(@Valid SearchRequestDTO searchRequestDTO) {
     return searchService.searchTrains(searchRequestDTO.getOrigin(), searchRequestDTO.getDestination(),
             searchRequestDTO.getDepartureDate());
   }
 
+  @ApiOperation(value = "Get prices for train", notes = "${swagger.notes.prices}")
   @RequestMapping(value = "/{trainId}/prices", method = {RequestMethod.GET})
   public PriceOffersDTO prices(@PathVariable("trainId") Integer trainId, @Valid PricesRequestDTO pricesRequestDTO) {
     return pricingService.getPrices(trainId, pricesRequestDTO.getTravelClass(), populateListOfPassengers(pricesRequestDTO));
   }
 
+  @ApiOperation(value = "Get seats for train", notes = "${swagger.notes.seats}")
   @RequestMapping(value = "/{trainId}/seats", method = {RequestMethod.GET})
   public AvailableSeatsDTO seats(@PathVariable("trainId") Integer trainId, @RequestParam("travelClass") String travelClass) {
     return seatsService.getAvailableSeats(trainId, travelClass);
   }
 
+  @ApiOperation(value = "Reserve/unreserve seats", notes = "${swagger.notes.changeseats}")
   @RequestMapping(value = "/{trainId}/seats", method = {RequestMethod.PUT})
   public void changeSeatsStatus(@PathVariable("trainId") Integer trainId, @RequestBody @Valid SeatsRequestDTO request) {
     List<CarriageSeatsAllocationDTO> carriageSeats = request.getCarriageSeats();
